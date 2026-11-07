@@ -100,7 +100,7 @@ volumes:
 
 ## CI
 
-`.github/workflows/build.yml` uses `abxst/actions/strict@v3`: build → Trivy
+`.github/workflows/build.yml` builds with Docker Buildx, then runs a Trivy
 scan (strict gate, all severities block) → push to `ghcr.io` on `main`.
 PRs only build + scan.
 
