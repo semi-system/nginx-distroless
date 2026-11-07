@@ -14,18 +14,15 @@ permissions:
   id-token: write
 
 jobs:
-  # Build and scan AMD64 images on the organization runner.
+  # Build and scan AMD64 images on Ubuntu 24.04.
   # Publish immutable digests before applying latest and <sha>-<date> tags.
   build:
-    runs-on: [self-hosted, Linux, X64, semi-system]
+    runs-on: ubuntu-24.04
     env:
       BUILD_ARGS: |
         CACHE_BUST=${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - uses: actions/checkout@v4
-
-      - name: Allow runner user to access Docker
-        run: sudo chown "$(id -u)" /var/run/docker.sock
 
       - uses: docker/setup-buildx-action@v3
 
@@ -81,11 +78,8 @@ jobs:
   merge:
     needs: build
     if: github.ref == 'refs/heads/main'
-    runs-on: [self-hosted, Linux, X64, semi-system]
+    runs-on: ubuntu-24.04
     steps:
-      - name: Allow runner user to access Docker
-        run: sudo chown "$(id -u)" /var/run/docker.sock
-
       - uses: actions/download-artifact@v4
         with:
           pattern: digests-*
