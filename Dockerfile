@@ -157,7 +157,7 @@ RUN mkdir -p /tmp-skel
 ########################################################################
 # Stage 2: distroless runtime (no shell, no package manager, nonroot)
 ########################################################################
-FROM ghcr.io/morningstar-sudo/baseless-static:latest
+FROM ghcr.io/semi-system/baseless-static:latest
 
 COPY --from=build /usr/sbin/nginx /usr/sbin/nginx
 COPY --from=build /entrypoint /entrypoint
